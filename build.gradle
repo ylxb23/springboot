@@ -1,0 +1,63 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+jar {
+	name = 'springbootcase'
+	version = '1.0'
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE")
+	}
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+	springbootVersion				= '1.5.3.RELEASE'
+	
+	libraries = [
+		springBootWeb:					"org.springframework.boot:spring-boot-starter-web",
+		springThymeleaf:				"org.springframework.boot:spring-boot-starter-thymeleaf",
+		springSecurity:					"org.springframework.boot:spring-boot-starter-security",
+		
+		springBootTest:					"org.springframework.boot:spring-boot-starter-test",
+		springSecurityTest:				"org.springframework.security:spring-security-test",
+		junit:							"junit:junit",
+	]
+}
+
+dependencies {
+    compile(libraries.springBootWeb)
+    compile(libraries.springThymeleaf)
+    compile(libraries.springSecurity)
+    
+    testCompile(libraries.springBootTest)
+    testCompile(libraries.springSecurityTest)
+    testCompile(libraries.junit)
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
