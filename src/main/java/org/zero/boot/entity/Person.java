@@ -1,6 +1,10 @@
 package org.zero.boot.entity;
 
-
+/**
+ * for test
+ *
+ * @author zero
+ */
 public class Person {
 	private long counter;
     private String name;

@@ -4,6 +4,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**
+ * spring framework MVC configurations
+ *
+ * @author zero
+ */
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
 	
