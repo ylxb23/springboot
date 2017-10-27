@@ -29,17 +29,19 @@ ext {
 	springbootVersion				= '1.5.3.RELEASE'
 	
 	libraries = [
+		springBoot:					"org.springframework.boot:spring-boot-starter",
 		springBootWeb:					"org.springframework.boot:spring-boot-starter-web",
 		springThymeleaf:				"org.springframework.boot:spring-boot-starter-thymeleaf",
 		springSecurity:					"org.springframework.boot:spring-boot-starter-security",
 		
 		springBootTest:					"org.springframework.boot:spring-boot-starter-test",
 		springSecurityTest:				"org.springframework.security:spring-security-test",
-		junit:							"junit:junit",
+		junit:							"junit:junit"
 	]
 }
 
 dependencies {
+    compile(libraries.springBoot)
     compile(libraries.springBootWeb)
     compile(libraries.springThymeleaf)
     compile(libraries.springSecurity)

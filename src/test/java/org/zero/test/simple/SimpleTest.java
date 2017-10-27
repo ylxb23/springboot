@@ -4,17 +4,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.junit.Test;
+
 /**
  * simple test cases
  * @author zero
  */
 public class SimpleTest {
 	
-	public static void main(String[] args) throws ParseException {
-		testDate("2017-07-02 00:08:23");
-	}
-	
-	private static void testDate(String str) throws ParseException {
+	@Test
+	public void testDate() throws ParseException {
+		String str = "2017-07-02 00:08:23";
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date now = format.parse(str);
 		

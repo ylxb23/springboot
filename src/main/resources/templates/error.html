@@ -3,12 +3,13 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<head>
-		<title>Administrator Home</title>
+		<title>ERROR</title>
 	</head>
 	<body>
-		<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-		<form th:action="@{/logout}" method="post">
-			<input type="submit" value="Sign Out" />
-		</form>
+		<h1>ERROR</h1>
+	
+		<p>
+			出错了，怪我咯！
+		</p>
 	</body>
 </html>
