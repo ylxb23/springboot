@@ -6,10 +6,10 @@
 		<title>ERROR</title>
 	</head>
 	<body>
-		<h1>ERROR</h1>
-	
-		<p>
-			出错了，怪我咯！
-		</p>
+		<h1>出错了，怪我咯！</h1>
+	    <br/>
+	    
+		<div>你请求的路径[<span th:text="${url}"></span>] 发生异常：</div>
+		<div th:text="${exception}"></div>
 	</body>
 </html>
