@@ -42,6 +42,7 @@ ext {
 		lombok:                           "org.projectlombok:lombok:${lombokVersion}",
 		
 		springBoot:                       "org.springframework.boot:spring-boot-starter",
+		springBootLog4j2:                 "org.springframework.boot:spring-boot-starter-log4j2",
 		springBootJdbc:                   "org.springframework.boot:spring-boot-starter-jdbc",
 		springBootMyBatis:                "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}",
 		springBootWeb:                    "org.springframework.boot:spring-boot-starter-web",
@@ -56,14 +57,14 @@ ext {
 }
 
 dependencies {
-//    compile(libraries.hsql) // spring-boot 内置数据库
+//  compile(libraries.hsql) // spring-boot 内置数据库
     compile(libraries.lombok)
     
     compile(libraries.jdbcConnector)
     compile(libraries.druid)
-    compile(libraries.springBoot)
+//  compile(libraries.springBootLog4j2)
     compile(libraries.springBootWeb)
-//    compile(libraries.springBootJdbc)  // 使用了springBootMybatis依赖可以不用此项
+//  compile(libraries.springBootJdbc)  // 使用了springBootMybatis依赖可以不用此项
     compile(libraries.springBootMyBatis)
     compile(libraries.springThymeleaf)
     compile(libraries.springSecurity)
@@ -72,6 +73,10 @@ dependencies {
     testCompile(libraries.springBootTest)
     testCompile(libraries.springSecurityTest)
     testCompile(libraries.junit)
+    
+    compile(libraries.springBoot) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter-logging'
+    }
 }
 
 test {

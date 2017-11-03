@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  *
  * @author zero
  */
+@EnableAsync	// 启用可异步调用，结合使用@Async，异步方法调用综合结果结束异步线程使用#java.util.concurrent.Future.
 @EnableWebMvc
 @EnableScheduling
 @EnableAutoConfiguration
