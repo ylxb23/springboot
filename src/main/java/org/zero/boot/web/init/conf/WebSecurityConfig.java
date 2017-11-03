@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// role permission configure
 		http.authorizeRequests()
+			.antMatchers("/**").permitAll()	// for test 
 			.antMatchers("/", "/hello", "404", "500").permitAll()
 			.antMatchers("/user/**").hasRole("USER")
 			.anyRequest().authenticated()

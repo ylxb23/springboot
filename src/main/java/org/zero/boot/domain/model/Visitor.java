@@ -1,19 +1,19 @@
-package org.zero.boot.entity;
+package org.zero.boot.domain.model;
 
 /**
  * for test
  *
  * @author zero
  */
-public class Person {
+public class Visitor {
 	private long counter;
     private String name;
 
-    public Person(String name) {
+    public Visitor(String name) {
         this.name = name;
     }
     
-    public Person(long count, String name) {
+    public Visitor(long count, String name) {
     	this.counter = count;
     	this.name = name;
     }
