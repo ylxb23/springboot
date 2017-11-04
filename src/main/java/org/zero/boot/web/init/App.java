@@ -23,7 +23,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableScheduling
 @EnableAutoConfiguration
 @SpringBootApplication
-@PropertySource(value = {"classpath:application.properties", "classpath:datasource.properties"})
+@PropertySource(value = {"classpath:application.properties", 
+		"classpath:datasource.properties", 
+		"classpath:plugins.properties"})
 @ComponentScan(value = {"org.zero.boot"})
 public class App {
 	private static final Logger logger = LoggerFactory.getLogger(App.class);

@@ -2,7 +2,6 @@ package org.zero.boot.util;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -55,7 +54,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static Date parse(String date, DateTimeFormatter formatter) {
-		return Date.from(LocalDateTime.parse(date, formatter).toInstant(ZoneOffset.UTC));
+		return localDateTime2Date(LocalDateTime.parse(date, formatter));
 	}
 	
 	/**
@@ -68,9 +67,21 @@ public class DateUtil {
 		return parse(date, DateTimeFormatter.ofPattern(pattern));
 	}
 	
-	public static void main(String[] args) {
-		String date = "2017-10-26 11:16:59";
-		System.out.println(parse(date, DATE_TIME_PATTERN_yyyy_MM_dd_HH_mm_ss));
-		System.out.println(format(new Date(), DATE_TIME_PATTERN_yyyy_MM_dd_HH_mm_ss));
+	/**
+	 * 将 {@linkplain #java.time.LocalDateTime} 转化为 {@linkplain #java.util.Date}
+	 * @param localDateTime
+	 * @return
+	 */
+	public static Date localDateTime2Date(LocalDateTime localDateTime) {
+		return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	}
+	
+	/**
+	 * 将 {@linkplain #java.util.Date}转化为 {@linkplain #java.time.LocalDateTime}
+	 * @param date
+	 * @return
+	 */
+	public static LocalDateTime date2LocalDateTime(Date date) {
+		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
 	}
 }
