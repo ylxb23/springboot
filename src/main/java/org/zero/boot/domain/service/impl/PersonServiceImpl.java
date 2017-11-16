@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zero.boot.dao.first.entity.Person;
 import org.zero.boot.dao.first.entity.PersonExample;
 import org.zero.boot.dao.first.repository.PersonMapper;
@@ -24,6 +25,8 @@ public class PersonServiceImpl implements PersonService {
 	@Autowired
 	private PersonMapper personMapper;
 	
+
+	@Transactional(transactionManager="firstDataSourceTransactionManager", readOnly=true)
 	@Override
 	public List<Person> queryAll() {
 		PersonExample example = new PersonExample();

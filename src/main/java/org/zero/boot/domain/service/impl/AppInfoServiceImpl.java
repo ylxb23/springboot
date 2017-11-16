@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zero.boot.dao.second.entity.AppInfo;
 import org.zero.boot.dao.second.entity.AppInfoExample;
 import org.zero.boot.dao.second.repository.AppInfoMapper;
@@ -19,6 +20,7 @@ public class AppInfoServiceImpl implements AppInfoService {
 	@Autowired
 	private AppInfoMapper appInfoMapper;
 	
+	@Transactional(transactionManager="secondDataSourceTransactionManager", readOnly=true)
 	@Override
 	public List<AppInfo> queryAllAppInfo() {
 		AppInfoExample example = new AppInfoExample();

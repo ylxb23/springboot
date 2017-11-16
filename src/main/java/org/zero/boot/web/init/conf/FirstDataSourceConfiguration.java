@@ -62,9 +62,10 @@ public class FirstDataSourceConfiguration {
 	}
 	
 	/**
-	 * 第一数据源事务管理器
+	 * 第一数据源事务管理器（在使用 {@code @Transactional}声明事务时应指定事务名称）
 	 * @return
 	 */
+	@Primary
 	@Bean(name="firstDataSourceTransactionManager")
 	public DataSourceTransactionManager firstDataSourceTransactionManager() {
 		return new DataSourceTransactionManager(firstDataSource());
