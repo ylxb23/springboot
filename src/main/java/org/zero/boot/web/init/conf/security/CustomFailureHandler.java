@@ -10,5 +10,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CustomFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+	
+	public CustomFailureHandler() {
+		super();
+		custom();
+	}
 
+	private void custom() {
+		// 在 请求头中将登陆失败的异常放到 属性中
+		setUseForward(true);
+		// 同时把一场放到session中
+		setAllowSessionCreation(true);
+	}
+	
 }

@@ -37,8 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		// role permission configure
 		http.authorizeRequests()
-			.antMatchers("/**").permitAll()	// for test 
-			.antMatchers("/", "/hello", "404", "500", "/error").permitAll()
+//			.antMatchers("/**").permitAll()	// for test 
+			.antMatchers("/", "/hello", "/login", "404", "500", "/error").permitAll()
 			.antMatchers("/user/**").hasRole("USER")
 			.anyRequest().authenticated()
 		// role permission configure finish
@@ -55,8 +55,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// 程序加载时加载全部用户信息到内存中
 		auth.inMemoryAuthentication()
-			.withUser("user").password("password").roles("hasRole('USER')")
-			.and().withUser("zero").password("zeropass").roles("hasRole('USER')");
+			// #SimpleGrantedAuthority
+			.withUser("user").password("password").roles("USER")
+			.and().withUser("admin").password("admin").roles("ADMIN");
+		
+//		auth.jdbcAuthentication();	// 使用jdbc加载用户信息
+		// 使用自定义 AuthenticationProvider, 譬如使用 DaoAuthenticationProvider中的通过实现 UserDetailsService加载用户信息
+//		auth.authenticationProvider(authenticationProvider);	
 	}
 }
