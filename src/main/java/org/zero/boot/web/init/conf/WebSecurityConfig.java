@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //			.antMatchers("/**").permitAll()	// for test 
 			.antMatchers("/", "/hello", "/login", "404", "500", "/error").permitAll()
 			.antMatchers("/user/**").hasRole("USER")
+			.antMatchers("/admin/**").hasRole("ADMIN")
 			.anyRequest().authenticated()
 		// role permission configure finish
 			.and()
