@@ -51,6 +51,7 @@ ext {
 		springBootVelocity:               "org.springframework.boot:spring-boot-starter-velocity",
 		springBootFreemarker:             "org.springframework.boot:spring-boot-starter-freemarker",
 		springBootAmqp:                   "org.springframework.boot:spring-boot-starter-amqp",
+		springBootAop:                    "org.springframework.boot:spring-boot-starter-aop",
 		springBootMyBatis:                "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}",
 		springBootWeb:                    "org.springframework.boot:spring-boot-starter-web",
 		springThymeleaf:                  "org.springframework.boot:spring-boot-starter-thymeleaf",
@@ -66,11 +67,13 @@ ext {
 dependencies {
 //  compile(libraries.hsql) // spring-boot 内置数据库
     compile(libraries.lombok)
+    compile(libraries.fastjson)
     
     compile(libraries.jdbcConnector)
     compile(libraries.druid)
 //  compile(libraries.springBootLog4j2)
     compile(libraries.springBootWeb)
+    compile(libraries.springBootAop)
     compile(libraries.springBootAmqp)   // 支持消息中间件依赖(rabbitMQ)
     compile(libraries.springBootMail)
 //  compile(libraries.springBootVelocity)   // 邮件模板(官方弃用,推荐freemarker)

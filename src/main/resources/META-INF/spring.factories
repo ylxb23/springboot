@@ -1,0 +1,3 @@
+# 自定义spring加载Bean的实现
+org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer=\
+org.zero.boot.web.init.conf.security.CustomDslConfigure

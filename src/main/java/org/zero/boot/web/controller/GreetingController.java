@@ -3,6 +3,8 @@ package org.zero.boot.web.controller;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +62,8 @@ public class GreetingController {
 	
 	@ResponseBody
 	@RequestMapping(value="/testException", method= {RequestMethod.GET})
-	public String testException() throws Exception {
+	public String testException(HttpServletRequest request) throws Exception {
+		logger.info("Request /testException, remote user[{}], is user in role(ADMIN)[{}], user principal[{}]", request.getRemoteUser(), request.isUserInRole("ADMIN"), request.getUserPrincipal());
 		throw new Exception("This is a test exception");
 	}
 	

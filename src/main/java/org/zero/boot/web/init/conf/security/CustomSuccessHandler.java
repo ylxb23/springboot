@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -49,20 +50,19 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) authentication.getAuthorities();	// 只有一个角色
 			if(authorities.isEmpty()) {
 				// 嘿嘿，这是不可能的，因为我会写死他
-				String userName = (String) authentication.getPrincipal();
-				String password = (String) authentication.getCredentials();
-				logger.warn("用户[{}]，密码[{}]权限有问题,他没角色！", userName, password);
+				User user = (User) authentication.getPrincipal();
+				logger.warn("用户[{}]权限有问题,他没角色！", user.getUsername());
 				throw new IllegalArgumentException("用户权限有问题");
 			}
 			SimpleGrantedAuthority authority = (SimpleGrantedAuthority) Arrays.asList(authorities.toArray()).get(0);
 			String toUrl = null; 
-			// 为啥会有 "ROLE_"这个前缀呢，是因为在 SimpleGrantedAuthority对象创建的时候 UserBuilder会给它加上去.
-			// 然而在 RoleVoter中，rolePrefix属性提供了 Setter方法，明显是准备好可以“私人订制”的，却在 UserBuilder中使用了写死的方式追加这个前缀 -,-
+			// 使用 Builder创建的GrantedAuthority 会有 "ROLE_"这个前缀，是因为在 SimpleGrantedAuthority对象创建的时候 UserBuilder会给它加上去.
+			// 当前 UserDetails对象是通过自定义的 UserDetailsService装配的，其中的 authorities也是自定义的，并没有 ROLE_ 前缀
 			switch (authority.getAuthority()) {
-			case "ROLE_USER":	
+			case "USER":
 				toUrl = "/user/home";
 				break;
-			case "ROLE_ADMIN":
+			case "ADMIN":
 				toUrl = "/admin/home";
 				break;
 			default:
@@ -72,8 +72,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			toUrl = response.encodeRedirectURL(toUrl);
 			response.sendRedirect(toUrl);
 			return;
+		} else {
+			// 否则使用框架中的 handle
+			super.handle(request, response, authentication);
 		}
-		// 否则使用框架中的 handle
-		super.handle(request, response, authentication);
 	}
 }
