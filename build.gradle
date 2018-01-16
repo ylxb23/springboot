@@ -45,7 +45,6 @@ ext {
 		springStatusmachine:              "org.springframework.statemachine:spring-statemachine-core:${springStatemachineVersion}",
 		
 		springBoot:                       "org.springframework.boot:spring-boot-starter",
-		springBootLog4j2:                 "org.springframework.boot:spring-boot-starter-log4j2",
 		springBootJdbc:                   "org.springframework.boot:spring-boot-starter-jdbc",
 		springBootMail:                   "org.springframework.boot:spring-boot-starter-mail",
 		springBootVelocity:               "org.springframework.boot:spring-boot-starter-velocity",
@@ -57,6 +56,8 @@ ext {
 		springThymeleaf:                  "org.springframework.boot:spring-boot-starter-thymeleaf",
 		springSecurity:                   "org.springframework.boot:spring-boot-starter-security",
 		springActuator:                   "org.springframework.boot:spring-boot-starter-actuator",
+        log4j2YmlSupport:                 "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
+		springBootLog4j2:                 "org.springframework.boot:spring-boot-starter-log4j2",
 		
 		springBootTest:                   "org.springframework.boot:spring-boot-starter-test",
 		springSecurityTest:               "org.springframework.security:spring-security-test",
@@ -69,29 +70,54 @@ dependencies {
     compile(libraries.lombok)
     compile(libraries.fastjson)
     
-    compile(libraries.jdbcConnector)
-    compile(libraries.druid)
-//  compile(libraries.springBootLog4j2)
-    compile(libraries.springBootWeb)
-    compile(libraries.springBootAop)
-    compile(libraries.springBootAmqp)   // 支持消息中间件依赖(rabbitMQ)
-    compile(libraries.springBootMail)
-//  compile(libraries.springBootVelocity)   // 邮件模板(官方弃用,推荐freemarker)
-    compile(libraries.springBootFreemarker)   // 邮件模板
-    
-//  compile(libraries.springBootJdbc)  // 使用了springBootMybatis依赖可以不用此项
-    compile(libraries.springBootMyBatis)
-    compile(libraries.springThymeleaf)
-    compile(libraries.springSecurity)
-    compile(libraries.springActuator)
-    
-    testCompile(libraries.springBootTest)
-    testCompile(libraries.springSecurityTest)
-    testCompile(libraries.junit)
-    
     compile(libraries.springBoot) {
         exclude group:'org.springframework.boot', module:'spring-boot-starter-logging'
     }
+    
+    compile(libraries.jdbcConnector)
+    compile(libraries.druid)
+    compile(libraries.springBootLog4j2)
+    compile(libraries.log4j2YmlSupport)
+    compile(libraries.springBootWeb) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    compile(libraries.springBootAop) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    compile(libraries.springBootAmqp) {  // 支持消息中间件依赖(rabbitMQ) 
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    compile(libraries.springBootMail) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+//  compile(libraries.springBootVelocity)   // 邮件模板(官方弃用,推荐freemarker)
+    compile(libraries.springBootFreemarker) {  // 邮件模板 
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    
+//  compile(libraries.springBootJdbc)  // 使用了springBootMybatis依赖可以不用此项
+    compile(libraries.springBootMyBatis) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    compile(libraries.springThymeleaf) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    compile(libraries.springSecurity) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    compile(libraries.springActuator) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    
+    
+    testCompile(libraries.springBootTest) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    testCompile(libraries.springSecurityTest) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    testCompile(libraries.junit)
+    
 }
 
 test {

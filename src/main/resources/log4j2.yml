@@ -3,12 +3,12 @@ Configuration:
   
   Properties: # 定义全局变量  
     Property: # 缺省配置（用于开发环境）。其他环境需要在VM参数中指定，如下：  
-      #测试：-Dlog.level.console=debug -Dlog.level.zero=trace  
-      #生产：-Dlog.level.console=debug -Dlog.level.zero=info        
+      #测试：-Dlog.level.console=debug -Dlog.level.file=trace  
+      #生产：-Dlog.level.console=debug -Dlog.level.file=info        
       - name: log.level.console  
         value: trace  
-      - name: log.level.zero  
-        value: trace   
+      - name: log.level.file  
+        value: info   
       - name: log.path
         value: /var/logs
       - name: project.name
@@ -27,8 +27,8 @@ Configuration:
     RollingFile: # 输出到文件，超过128MB归档  
       - name: ROLLING_FILE  
         ignoreExceptions: false  
-        fileName: ${log.path}/${project.name}.log  
-        filePattern: "${log.path}/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"  
+        fileName: "${log.path}/${project.name}/${project.name}-%d{yyyy-MM-dd}.log"
+        filePattern: "${log.path}/${project.name}/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"  
         PatternLayout:  
           pattern: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n"  
         Policies:  
@@ -43,10 +43,10 @@ Configuration:
       AppenderRef:
         - ref: CONSOLE  
         - ref: ROLLING_FILE  
-    Logger: # 为org.zero.boot.dao包配置特殊的Log级别，方便调试  
-      - name: org.zero.boot.dao  
-        additivity: false  
-        level: ${sys:log.level.zero}  
+    Logger: # 为org.zero包配置特殊的Log级别，方便调试  
+      - name: org.zero  
+        additivity: false 
+        level: ${sys:log.level.file}  
         AppenderRef:  
           - ref: CONSOLE  
           - ref: ROLLING_FILE  
