@@ -27,7 +27,7 @@ Configuration:
     RollingFile: # 输出到文件，超过128MB归档  
       - name: ROLLING_FILE  
         ignoreExceptions: false  
-        fileName: "${log.path}/${project.name}/${project.name}-%d{yyyy-MM-dd}.log"
+        fileName: "${log.path}/${project.name}/${project.name}.log"
         filePattern: "${log.path}/${project.name}/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"  
         PatternLayout:  
           pattern: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n"  
