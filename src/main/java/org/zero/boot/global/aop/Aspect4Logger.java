@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 
 /**
  * for logger
@@ -40,7 +40,7 @@ public class Aspect4Logger {
 		long begin = System.currentTimeMillis();
 		Object result = point.proceed();
 		long end = System.currentTimeMillis();
-		logger.info("Around execute at[{}.{}], with args[{}], cost[{}]ms, return[{}].", point.getTarget().getClass(), point.getSignature().getName(), JSONObject.toJSONString(point.getArgs()), (end - begin), JSONObject.toJSONString(result));
+		logger.info("Around execute at[{}.{}], with args[{}], cost[{}]ms, return[{}].", point.getTarget().getClass(), point.getSignature().getName(), JSON.toJSONString(point.getArgs()), (end - begin), JSON.toJSONString(result));
 		return result;
 	}
 	

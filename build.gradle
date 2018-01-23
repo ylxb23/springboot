@@ -44,8 +44,10 @@ ext {
 		// 状态机
 		springStatusmachine:              "org.springframework.statemachine:spring-statemachine-core:${springStatemachineVersion}",
 		
+		springSession:                    "org.springframework.session:spring-session-data-redis",
 		springBoot:                       "org.springframework.boot:spring-boot-starter",
 		springBootJdbc:                   "org.springframework.boot:spring-boot-starter-jdbc",
+		springBootDataRedis:              "org.springframework.boot:spring-boot-starter-data-redis",
 		springBootMail:                   "org.springframework.boot:spring-boot-starter-mail",
 		springBootVelocity:               "org.springframework.boot:spring-boot-starter-velocity",
 		springBootFreemarker:             "org.springframework.boot:spring-boot-starter-freemarker",
@@ -99,6 +101,9 @@ dependencies {
     compile(libraries.springBootMyBatis) {
         exclude group:'org.springframework.boot', module:'spring-boot-starter'
     }
+    compile(libraries.springBootDataRedis) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
     compile(libraries.springThymeleaf) {
         exclude group:'org.springframework.boot', module:'spring-boot-starter'
     }
@@ -108,7 +113,7 @@ dependencies {
     compile(libraries.springActuator) {
         exclude group:'org.springframework.boot', module:'spring-boot-starter'
     }
-    
+    compile(libraries.springSession)
     
     testCompile(libraries.springBootTest) {
         exclude group:'org.springframework.boot', module:'spring-boot-starter'

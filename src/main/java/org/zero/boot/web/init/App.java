@@ -12,6 +12,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 		"classpath:datasource.properties", 
 		"classpath:plugins.properties"})
 @ComponentScan(value = {"org.zero.boot"})
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400*30)	// redis托管session
 public class App {
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 	

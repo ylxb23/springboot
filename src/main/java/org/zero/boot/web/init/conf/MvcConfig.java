@@ -1,6 +1,7 @@
 package org.zero.boot.web.init.conf;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -18,8 +19,17 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/admin/home").setViewName("admin/home");
 		registry.addViewController("/hello").setViewName("hello");
 		registry.addViewController("/login").setViewName("login");
-		registry.addViewController("/subhome").setViewName("subhome");
 		registry.addRedirectViewController("/", "hello");
 	}
 	
+	/**
+	 * 添加拦截器
+	 * @param registry
+	 */
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		super.addInterceptors(registry);
+		// TODO 
+	}
+
 }

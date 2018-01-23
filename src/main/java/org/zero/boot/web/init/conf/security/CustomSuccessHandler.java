@@ -3,10 +3,13 @@ package org.zero.boot.web.init.conf.security;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +44,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	@Override
 	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
+		// store user info into sesssion
+		sessionUserInfo(request, authentication);
+		
 		String fromUrl = request.getParameter("fromUrl");
 		if(StringUtils.isEmpty(fromUrl)) {
 			// 如果参数中没有 fromUrl,则通过权限中获取的角色跳转到对应的 HOME路径下
@@ -76,5 +82,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			// 否则使用框架中的 handle
 			super.handle(request, response, authentication);
 		}
+	}
+	
+	private void sessionUserInfo(HttpServletRequest request, Authentication authentication) {
+		HttpSession session = request.getSession(true);
+		Map<String, Object> map = new HashMap<>(4);
+		map.put("username", authentication.getPrincipal());
+		map.put("authorities", authentication.getAuthorities());
+		session.setAttribute("authentication", map);
 	}
 }
