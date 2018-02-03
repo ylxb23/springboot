@@ -20,6 +20,7 @@ import org.zero.boot.dao.second.entity.AppInfo;
 import org.zero.boot.domain.model.Visitor;
 import org.zero.boot.domain.service.AppInfoService;
 import org.zero.boot.domain.service.PersonService;
+import org.zero.boot.util.RedisUtil;
 
 /**
  * for test
@@ -58,6 +59,41 @@ public class GreetingController {
 		logger.info("this is info level of logger.");
 		logger.debug("this is debug level of logger.");
 		return "";
+	}
+	
+	/**
+	 * 尝试获取锁
+	 * @param request
+	 * @param key
+	 * @param time
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/aquireLock", method= {RequestMethod.GET})
+	public ResponseEntity<String> aquireLock(HttpServletRequest request, 
+			@RequestParam(required=false) String key, @RequestParam(required=false) long time) {
+		if(key == null) {
+			key = "DEFAULT_KEY";
+		}
+		if(time == 0) {
+			time = 10_000L;
+		}
+		try {
+			boolean lock = RedisUtil.lock(key);
+			if(lock) {
+				Thread.sleep(time);
+				logger.info("Get lock session[{}] with key[{}], time[{}]", request.getSession(true).getId(), key, time);
+				return ResponseEntity.ok("GOT: session[" + request.getSession().getId() + "] with key[" + key + "], time[" + time + "]");
+			} else {
+				logger.info("Not get lock session[{}] with key[{}], time[{}]", request.getSession(true).getId(), key, time);
+				return ResponseEntity.ok("NO_GOT: session[" + request.getSession().getId() + "] with key[" + key + "], time[" + time + "]");
+			}
+		} catch (InterruptedException e) {
+			logger.error(e.getMessage(), e);
+			return ResponseEntity.ok("ERROR: session[" + request.getSession().getId() + "] with key[" + key + "], time[" + time + "]");
+		} finally {
+			RedisUtil.unlock(key);
+		}
 	}
 	
 	@ResponseBody

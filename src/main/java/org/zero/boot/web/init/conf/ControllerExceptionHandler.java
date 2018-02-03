@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -23,15 +24,15 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControllerExceptionHandler  {
 	private Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 	
-	private static final String ERROR_PATH = "/error";
-	
+	@ResponseBody
 	@ExceptionHandler(value = {Exception.class})
 	public ModelAndView defaultExceptionHandler(HttpServletRequest request, Exception e) {
 		ModelAndView model = new ModelAndView();
 		model.addObject("exception", e.getMessage());
-		model.addObject("url", request.getRequestURL().toString());
-		model.setViewName(ERROR_PATH);
-		logger.warn("Test exception handler, from[{}], url[{}] ", request.getRemoteAddr(), request.getRequestURL());
+		String requestUrl = request.getRequestURL().toString();
+		model.addObject("url", requestUrl);
+		model.setViewName(requestUrl);
+		logger.warn("Test exception handler, from[{}], url[{}] , exception: {}", request.getRemoteAddr(), request.getRequestURL(), e.getMessage());
 		return model;
 	}
 	
