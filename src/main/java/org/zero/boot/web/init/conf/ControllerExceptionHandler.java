@@ -26,8 +26,9 @@ public class ControllerExceptionHandler  {
 	
 	@ResponseBody
 	@ExceptionHandler(value = {Exception.class})
-	public ModelAndView defaultExceptionHandler(HttpServletRequest request, Exception e) {
+	public ModelAndView defaultExceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
 		ModelAndView model = new ModelAndView();
+		response.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
 		model.addObject("exception", e.getMessage());
 		String requestUrl = request.getRequestURL().toString();
 		model.addObject("url", requestUrl);
@@ -40,6 +41,7 @@ public class ControllerExceptionHandler  {
 	public void illegalArgumentExceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
 		String msg = e.getMessage();
 		logger.error("Got illegal argument exception.", e);
+		response.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
 		ResponseEntity<?> entity = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(msg);
 		try(PrintWriter writer = response.getWriter()) {
 			writer.println(entity.toString());

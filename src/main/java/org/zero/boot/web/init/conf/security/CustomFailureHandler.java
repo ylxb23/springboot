@@ -1,6 +1,7 @@
 package org.zero.boot.web.init.conf.security;
 
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import org.zero.boot.util.ResponseUtil;
 @Component
 public class CustomFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
+	protected static final ConcurrentHashMap<String, Integer> count = new ConcurrentHashMap<>();
+	
 	public CustomFailureHandler() {
 		super();
 		custom();
@@ -40,7 +43,9 @@ public class CustomFailureHandler extends SimpleUrlAuthenticationFailureHandler 
 			AuthenticationException exception) throws IOException, ServletException {
 		String username = request.getParameter("username");
 		// count failure times
-		
+		int history = count.get(username);
+		count.put(username, history + 1);
+		logger.info("user[" + username + "] login failure " + count.get(username) + "th times.");
 		doWriteReponse(request, response, exception);
 	}
 	

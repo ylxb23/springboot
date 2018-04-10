@@ -3,8 +3,6 @@ package org.zero.boot.util;
 import java.util.Random;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -13,11 +11,13 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.zero.boot.web.init.context.ApplicationContextHolder;
 
 /**
- * redis util
+ * 基于Redis的分布式锁实现方法
  * @date 2018年1月26日 下午4:01:14
  * @author zero
  */
-public abstract class RedisUtil {
+public class RedisUtil {
+	private RedisUtil() {}
+	
 	public static RedisTemplate<?, ?> redisTemplate = (RedisTemplate<?, ?>) ApplicationContextHolder.application.getBean("redisTemplate");
 	
 	private static final String LOCK_KEY_PREFIX = "lock:";
