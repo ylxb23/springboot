@@ -1,4 +1,4 @@
-package org.zero.boot.web.init.conf.entity;
+package org.zero.boot.web.init.conf;
 
 import java.lang.reflect.Method;
 

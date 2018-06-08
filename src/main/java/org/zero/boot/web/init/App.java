@@ -1,12 +1,14 @@
 package org.zero.boot.web.init;
 
 import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
@@ -34,10 +36,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class App {
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 	
+	private static final CountDownLatch counter = new CountDownLatch(1);
 	
 	public static void main(String[] args) {
 		logger.info("App init with args: {}", Arrays.asList(args));
-		SpringApplication.run(App.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
+		logger.info("App started with {} beans inited...", context.getBeanDefinitionCount());
+		counter.countDown();
 	}
 	
 }

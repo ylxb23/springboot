@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * 第一个数据源配置
@@ -23,6 +24,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 @Configuration
 @MapperScan(basePackages= {"org.zero.boot.dao.first"}, sqlSessionFactoryRef="firstSqlSessionFactory")
 public class FirstDataSourceConfiguration {
+	
 	
 	/**
 	 * 第一个数据源
@@ -67,7 +69,7 @@ public class FirstDataSourceConfiguration {
 	 */
 	@Primary
 	@Bean(name="firstDataSourceTransactionManager")
-	public DataSourceTransactionManager firstDataSourceTransactionManager() {
+	public PlatformTransactionManager firstDataSourceTransactionManager() {
 		return new DataSourceTransactionManager(firstDataSource());
 	}
 	

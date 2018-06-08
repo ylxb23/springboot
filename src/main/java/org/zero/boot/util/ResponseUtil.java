@@ -29,7 +29,7 @@ public class ResponseUtil {
 			writer.println(JSON.toJSONString(obj));
 			return true;
 		} catch(Exception e) {
-			logger.error("Do write response[{}] exception occurred.", JSON.toJSONString(obj), e);
+			logger.error("Exception occurred while write response[{}].", JSON.toJSONString(obj), e);
 			return false;
 		}
 	}

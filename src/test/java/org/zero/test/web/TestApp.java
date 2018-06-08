@@ -3,9 +3,8 @@ package org.zero.test.web;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.zero.test.TestBasic;
@@ -16,7 +15,6 @@ import org.zero.test.TestBasic;
  * @author zero
  */
 public class TestApp extends TestBasic {
-	private Logger logger = LoggerFactory.getLogger(TestApp.class);
 	
 	@Test
 	public void testCount() {
@@ -28,6 +26,7 @@ public class TestApp extends TestBasic {
 				.andReturn();
 				String resultstring = result.getResponse().getContentAsString();
 				logger.debug("get: /count result: {}", resultstring);
+				Assert.assertTrue(resultstring.contains("Hello"));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

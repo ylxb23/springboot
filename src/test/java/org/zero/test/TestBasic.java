@@ -2,6 +2,8 @@ package org.zero.test;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -21,7 +23,8 @@ import org.zero.boot.web.init.App;
 @AutoConfigureMockMvc
 @SpringBootTest(classes=App.class)
 public abstract class TestBasic {
-
+	
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	protected MockMvc mvc;
 	
 	@Before

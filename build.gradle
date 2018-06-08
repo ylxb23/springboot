@@ -46,6 +46,7 @@ ext {
 		
 		springSession:                    "org.springframework.session:spring-session-data-redis",
 		springBoot:                       "org.springframework.boot:spring-boot-starter",
+		springBootConfigProcessor:        "org.springframework.boot:spring-boot-configuration-processor",
 		springBootJdbc:                   "org.springframework.boot:spring-boot-starter-jdbc",
 		springBootDataRedis:              "org.springframework.boot:spring-boot-starter-data-redis",
 		springBootMail:                   "org.springframework.boot:spring-boot-starter-mail",
@@ -71,7 +72,7 @@ dependencies {
 //  compile(libraries.hsql) // spring-boot 内置数据库
     compile(libraries.lombok)
     compile(libraries.fastjson)
-    
+    compile("org.slf4j:log4j-over-slf4j:1.7.25")    // just for org.apache.log4j.Priority
     compile(libraries.springBoot) {
         exclude group:'org.springframework.boot', module:'spring-boot-starter-logging'
     }
@@ -81,6 +82,9 @@ dependencies {
     compile(libraries.springBootLog4j2)
     compile(libraries.log4j2YmlSupport)
     compile(libraries.springBootWeb) {
+        exclude group:'org.springframework.boot', module:'spring-boot-starter'
+    }
+    compile(libraries.springBootConfigProcessor) {
         exclude group:'org.springframework.boot', module:'spring-boot-starter'
     }
     compile(libraries.springBootAop) {

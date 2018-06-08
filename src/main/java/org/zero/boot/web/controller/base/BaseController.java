@@ -1,4 +1,4 @@
-package org.zero.boot.web.controller;
+package org.zero.boot.web.controller.base;
 
 import java.util.Map;
 
@@ -16,9 +16,10 @@ import org.zero.boot.common.CommonConstants;
 public abstract class BaseController {
 	
 	/**
-	 * 
+	 * 获取登陆的用户名
 	 * @param request
 	 * @return
+	 * @throws {@linkplain CredentialsExpiredException}
 	 */
 	public String getLoginUsername(HttpServletRequest request) {
 		HttpSession session = request.getSession();
