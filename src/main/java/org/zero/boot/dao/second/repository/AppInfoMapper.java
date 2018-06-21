@@ -85,4 +85,7 @@ public interface AppInfoMapper {
      * @mbg.generated Fri Nov 03 16:09:03 CST 2017
      */
     int updateByPrimaryKey(AppInfo record);
+
+    
+	int insertMulti(@Param("list") List<AppInfo> list);
 }

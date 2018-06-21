@@ -16,5 +16,12 @@ public interface AppInfoService {
 	 * @return
 	 */
 	List<AppInfo> queryAllAppInfo();
+
+	/**
+	 * insert multi
+	 * @param list
+	 * @return
+	 */
+	int insertList(List<AppInfo> list);
 	
 }

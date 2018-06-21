@@ -305,4 +305,14 @@
       is_deleted = #{isDeleted,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+  <!-- insertMulti -->
+  <insert id="insertMulti" useGeneratedKeys="true" keyProperty="id" >
+    INSERT INTO app_info(app_name, app_version, description)
+    VALUES
+    <foreach item="item" collection="list" separator="," >
+        (#{item.appName, jdbcType=VARCHAR}, #{item.appVersion, jdbcType=VARCHAR}, #{item.description, jdbcType=VARCHAR})
+    </foreach>
+  </insert>
 </mapper>
