@@ -21,7 +21,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
  */
 @Configuration
 @MapperScan(basePackages= {"org.zero.boot.dao.second"}, sqlSessionFactoryRef="secondSqlSessionFactory")
-public class SecondDataSourceConfiguration extends FirstDataSourceConfiguration {
+public class SecondDataSourceConfiguration {
 
 	/**
 	 * 第二个数据源
@@ -62,7 +62,7 @@ public class SecondDataSourceConfiguration extends FirstDataSourceConfiguration 
 	 * 第二数据源事务管理器
 	 */
 	@Bean(name="secondDataSourceTransactionManager")
-	public DataSourceTransactionManager secondDataSourceTransactionManager() {
-		return new DataSourceTransactionManager(firstDataSource());
+	public DataSourceTransactionManager secondDataSourceTransactionManager(@Qualifier("secondDataSource") DataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
 	}
 }

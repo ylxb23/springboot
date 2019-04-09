@@ -16,7 +16,7 @@ import org.zero.boot.domain.service.AppInfoService;
  * @date 2017年11月3日 下午4:04:36
  * @author zero
  */
-@Service
+@Service(value="appInfoService")
 public class AppInfoServiceImpl implements AppInfoService {
 	@Autowired
 	private AppInfoMapper appInfoMapper;

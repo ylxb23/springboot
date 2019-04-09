@@ -27,8 +27,10 @@ import org.zero.boot.learn.enable.anotaton.EnableReportPkg;
 @EnableScheduling
 @EnableAspectJAutoProxy
 @EnableAutoConfiguration
-@EnableReportPkg({"org.zero.boot.dao.first.repository", "org.zero.boot.dao.second.repository", 
-	"org.zero.boot.dao.third.repository", "org.zero.boot.domain.service"})
+@EnableReportPkg({"org.zero.boot.dao.first.repository", 
+	"org.zero.boot.dao.second.repository", 
+	"org.zero.boot.dao.third.repository", 
+	"org.zero.boot.domain.service"})
 @SpringBootApplication
 @PropertySource(value = {"classpath:application.properties", 
 		"classpath:datasource.properties", 
