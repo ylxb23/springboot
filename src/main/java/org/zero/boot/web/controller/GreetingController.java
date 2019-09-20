@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zero.boot.dao.first.entity.Person;
 import org.zero.boot.dao.second.entity.AppInfo;
+import org.zero.boot.dao.third.entity.BbsReply;
 import org.zero.boot.domain.model.Visitor;
 import org.zero.boot.domain.service.AppInfoService;
 import org.zero.boot.domain.service.PersonService;
+import org.zero.boot.domain.service.ThirdDsService;
 import org.zero.boot.util.RedisUtil;
 
 /**
@@ -40,6 +42,9 @@ public class GreetingController {
 	@Autowired
 	private AppInfoService appInfoService;
 	
+	@Autowired
+	private ThirdDsService thirdDsService;
+	
 	@ResponseBody
 	@RequestMapping(value="/count", method={RequestMethod.POST, RequestMethod.GET})
 	public Visitor greeting(@RequestParam(value="name", defaultValue="world") String name) {
@@ -58,6 +63,7 @@ public class GreetingController {
 		logger.warn("this is warn level of logger.");
 		logger.info("this is info level of logger.");
 		logger.debug("this is debug level of logger.");
+		logger.trace("this is trace level of logger.");
 		return "";
 	}
 	
@@ -71,13 +77,8 @@ public class GreetingController {
 	@ResponseBody
 	@RequestMapping(value="/aquireLock", method= {RequestMethod.GET})
 	public ResponseEntity<String> aquireLock(HttpServletRequest request, 
-			@RequestParam(required=false) String key, @RequestParam(required=false) long time) {
-		if(key == null) {
-			key = "DEFAULT_KEY";
-		}
-		if(time == 0) {
-			time = 10_000L;
-		}
+			@RequestParam(required=false, defaultValue="DEFAULT_KEY", name="key") String key, 
+			@RequestParam(required=false, defaultValue="10000", name="time") long time) {
 		try {
 			boolean lock = RedisUtil.lock(key);
 			if(lock) {
@@ -145,4 +146,15 @@ public class GreetingController {
 		return ResponseEntity.ok(list);
 	}
 	
+	/**
+	 * test third data source.
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getReplies", method= {RequestMethod.GET})
+	public ResponseEntity<List<BbsReply>> queryRplies(HttpServletRequest request, 
+			@RequestParam(required=true) Long tid) {
+		List<BbsReply> list = thirdDsService.getReplies(tid);
+		return ResponseEntity.ok(list);
+	}
 }
