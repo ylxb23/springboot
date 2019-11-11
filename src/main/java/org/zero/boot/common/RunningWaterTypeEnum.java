@@ -12,7 +12,7 @@ public enum RunningWaterTypeEnum {
 	;
 	private byte type;
 	private String name;
-	private RunningWaterTypeEnum(byte type, String name) {
+	RunningWaterTypeEnum(byte type, String name) {
 		this.type = type;
 		this.name = name;
 	}

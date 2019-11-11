@@ -25,7 +25,7 @@ public class ResponseUtil {
 	 */
 	public static boolean writeResponse(HttpServletResponse response, Object obj) {
 		response.setContentType("application/json; charset=utf-8");
-		try(PrintWriter writer = response.getWriter();) {
+		try(PrintWriter writer = response.getWriter()) {
 			writer.println(JSON.toJSONString(obj));
 			return true;
 		} catch(Exception e) {

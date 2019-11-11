@@ -68,7 +68,7 @@ public class RedisUtil {
 			}
 			try {
 				// 随机阻塞时间，提升锁竞争公平性，同时防止饥饿线程等待
-				Thread.sleep((long) (100 + random.nextInt(300)));
+				Thread.sleep(100 + random.nextInt(300));
 			} catch (InterruptedException e) {
 				return false;
 			}

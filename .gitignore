@@ -30,6 +30,10 @@ hs_err_pid*
 .project
 .settings/
 
+# idea
+.idea/
+*.iml
+
 # gradle 
 .gradle
 build/

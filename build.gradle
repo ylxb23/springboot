@@ -1,9 +1,13 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 apply plugin: 'eclipse'
+apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+mainClassName = 'org.zero.boot.web.init.App'
+
 jar {
 	version = '1.0'
     manifest {
@@ -27,12 +31,15 @@ repositories {
 
 ext {
 	druidVersion                           = '1.1.5'
-	fastjsonVersion                        = '1.2.39'
+	fastjsonVersion                        = '1.2.62'
+	log4jVersion						   = '1.7.25'
     lombokVersion                          = '1.16.18'
     mybatisVersion                         = '1.3.1'
+	junitVersion						   = '4.13-rc-1'
 	springbootVersion                      = '1.5.3.RELEASE'
 	springStatemachineVersion              = '1.2.6.RELEASE'
-	
+	springKafkaVersion					   = '1.2.3.RELEASE'
+	prometheusVersion					   = '0.6.0'
 	
 	libraries = [
         druid:                            "com.alibaba:druid:${druidVersion}",
@@ -40,8 +47,10 @@ ext {
         hsql:                             "org.hsqldb:hsqldb",
 		jdbcConnector:                    "mysql:mysql-connector-java",
 		
+		prometheus:						  "io.prometheus:simpleclient_spring_boot:${prometheusVersion}",
+		log4jOver:						  "org.slf4j:log4j-over-slf4j:${log4jVersion}",
 		lombok:                           "org.projectlombok:lombok:${lombokVersion}",
-		// 状态机
+		// 
 		springStatusmachine:              "org.springframework.statemachine:spring-statemachine-core:${springStatemachineVersion}",
 		
 		springSession:                    "org.springframework.session:spring-session-data-redis",
@@ -61,72 +70,64 @@ ext {
 		springActuator:                   "org.springframework.boot:spring-boot-starter-actuator",
         log4j2YmlSupport:                 "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
 		springBootLog4j2:                 "org.springframework.boot:spring-boot-starter-log4j2",
-		
+		springBootKafka:				  "org.springframework.kafka:spring-kafka:${springKafkaVersion}",
+		springBootKafkaTest:			  "org.springframework.kafka:spring-kafka-test:${springKafkaVersion}",
+
 		springBootTest:                   "org.springframework.boot:spring-boot-starter-test",
 		springSecurityTest:               "org.springframework.security:spring-security-test",
-		junit:                            "junit:junit"
+		junit:                            "junit:junit:${junitVersion}"
 	]
 }
 
+
 dependencies {
-//  compile(libraries.hsql) // spring-boot 内置数据库
+//  compile(libraries.hsql) // spring-boot 
     compile(libraries.lombok)
+	annotationProcessor(libraries.lombok)
     compile(libraries.fastjson)
-    compile("org.slf4j:log4j-over-slf4j:1.7.25")    // just for org.apache.log4j.Priority
-    compile(libraries.springBoot) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter-logging'
-    }
-    
+    compile(libraries.log4jOver)    // just for org.apache.log4j.Priority
+    compile(libraries.springBoot)     
     compile(libraries.jdbcConnector)
     compile(libraries.druid)
     compile(libraries.springBootLog4j2)
     compile(libraries.log4j2YmlSupport)
-    compile(libraries.springBootWeb) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    compile(libraries.springBootConfigProcessor) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    compile(libraries.springBootAop) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    compile(libraries.springBootAmqp) {  // 支持消息中间件依赖(rabbitMQ) 
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    compile(libraries.springBootMail) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-//  compile(libraries.springBootVelocity)   // 邮件模板(官方弃用,推荐freemarker)
-    compile(libraries.springBootFreemarker) {  // 邮件模板 
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
+    compile(libraries.springBootWeb) 
+    compile(libraries.springBootConfigProcessor) 
+    compile(libraries.springBootAop) 
+    compile(libraries.springBootAmqp)  // (rabbitMQ) 
+    compile(libraries.springBootMail) 
+//  compile(libraries.springBootVelocity)   // freemarker
+    compile(libraries.springBootFreemarker)   //  
     
-//  compile(libraries.springBootJdbc)  // 使用了springBootMybatis依赖可以不用此项
-    compile(libraries.springBootMyBatis) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    compile(libraries.springBootDataRedis) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    compile(libraries.springThymeleaf) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    compile(libraries.springSecurity) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    compile(libraries.springActuator) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
+//  compile(libraries.springBootJdbc)  // SpringBootMybatis
+    compile(libraries.springBootMyBatis) 
+    compile(libraries.springBootDataRedis) 
+    compile(libraries.springThymeleaf) 
+    compile(libraries.springSecurity) 
+    compile(libraries.springActuator) 
+
+	compile(libraries.prometheus)
     compile(libraries.springSession)
+	compile(libraries.springBootKafka) {
+		exclude group: 'log4j', module: 'log4j'
+	}
+	compile(libraries.springBootKafkaTest) {
+		exclude group: 'log4j', module: 'log4j'
+	}
     
-    testCompile(libraries.springBootTest) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    testCompile(libraries.springSecurityTest) {
-        exclude group:'org.springframework.boot', module:'spring-boot-starter'
-    }
-    testCompile(libraries.junit)
-    
+    testCompile(libraries.springBootTest) 
+    testCompile(libraries.springSecurityTest)
+	testCompile(libraries.junit)
+}
+
+configurations {
+	all*.exclude group: 'log4j', module: 'log4j'
+}
+
+allprojects {
+	tasks.withType(JavaCompile) {
+		options.encoding = "UTF-8"
+	}
 }
 
 test {

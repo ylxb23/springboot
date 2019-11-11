@@ -11,7 +11,7 @@ public enum NormalStatusEnum {
 	;
 	private byte status;
 	private String desc;
-	private NormalStatusEnum(byte s, String d) {
+	NormalStatusEnum(byte s, String d) {
 		this.status = s;
 		this.desc = d;
 	}
@@ -34,15 +34,9 @@ public enum NormalStatusEnum {
 		throw new IllegalArgumentException("状态值[" + s + "]未定义");
 	}
 	public boolean isOk() {
-		if(this.status == 1) {
-			return true;
-		}
-		return false;
+		return this.status == 1;
 	}
 	public static boolean isOk(Byte s) {
-		if(s == null || s != 1) {
-			return false;
-		}
-		return true;
+		return s != null && s == 1;
 	}
 }

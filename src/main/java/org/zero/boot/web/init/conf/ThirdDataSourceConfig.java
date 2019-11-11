@@ -43,13 +43,13 @@ public class ThirdDataSourceConfig {
   
     private int minIdle;  
   
-    private int maxActive;  
+    private int maxActive = DruidDataSource.DEFAULT_MAX_ACTIVE_SIZE;
   
     private int maxWait;  
   
     private int timeBetweenEvictionRunsMillis;  
   
-    private int minEvictableIdleTimeMillis;  
+    private int minEvictableIdleTimeMillis = 60000;
   
     private String validationQuery;  
     
