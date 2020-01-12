@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class KafkaConsumer {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @KafkaListener(topics = {"zero", "zero01", "zero02", "zero03"})
+    @KafkaListener(topicPattern = "^zero[0-9]{0,3}$", containerGroup = "springboot", id = "springboota")
     public void listen(ConsumerRecord<String, String> consumerRecord) {
         logger.info("GetKafkaMsg, topic:{}, offset:{}, msg:{}", consumerRecord.topic(), consumerRecord.offset(), consumerRecord.value());
     }

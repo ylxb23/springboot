@@ -83,7 +83,7 @@ ext {
 
 dependencies {
 //  compile(libraries.hsql) // spring-boot 
-//    compile(libraries.lombok)
+    compile(libraries.lombok)
 	annotationProcessor(libraries.lombok)
     compile(libraries.fastjson)
     compile(libraries.log4jOver)    // just for org.apache.log4j.Priority
