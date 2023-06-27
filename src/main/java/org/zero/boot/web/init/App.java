@@ -20,6 +20,7 @@ import org.zero.boot.learn.enable.anotaton.EnableReportPkg;
 
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
+import org.zero.boot.learn.sentinel.Rules;
 
 /**
  * The application entrance here
@@ -55,6 +56,7 @@ public class App {
 		System.setProperty(LoggingSystem.SYSTEM_PROPERTY, "org.springframework.boot.logging.log4j2.Log4J2LoggingSystem");
 		ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
 		logger.info("App started with {} beans inited...", context.getBeanDefinitionCount());
+		Rules.initRules();	// 启用 sentinel
 		counter.countDown();
 	}
 	

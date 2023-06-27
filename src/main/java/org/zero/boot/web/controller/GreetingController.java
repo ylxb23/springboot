@@ -1,10 +1,14 @@
 package org.zero.boot.web.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,8 @@ import org.zero.boot.domain.model.Visitor;
 import org.zero.boot.domain.service.AppInfoService;
 import org.zero.boot.domain.service.PersonService;
 import org.zero.boot.domain.service.ThirdDsService;
+import org.zero.boot.learn.sentinel.Rules;
+import org.zero.boot.util.DateUtil;
 import org.zero.boot.util.RedisUtil;
 
 /**
@@ -44,6 +50,26 @@ public class GreetingController {
 	
 	@Autowired
 	private ThirdDsService thirdDsService;
+
+	@ResponseBody
+	@RequestMapping(value = "/qps", method = {RequestMethod.GET, RequestMethod.POST})
+	public String qpsTest(@RequestParam(value = "from") String from) {
+		Entry entry = null;
+		String timeNow = DateUtil.format(new Date(), DateUtil.DATE_TIME_PATTERN_yyyy_MM_dd_HH_mm_ss);
+		try {
+			entry = SphU.entry(Rules.RESOURCE_A001);
+			logger.info("qps request at: {}", timeNow);
+
+		} catch (BlockException e) {
+			logger.error("qps request blocked: {}", timeNow, e);
+			timeNow += " " + e.getMessage();
+		} finally {
+			if(entry != null) {
+				entry.exit();
+			}
+		}
+		return timeNow;
+	}
 	
 	@ResponseBody
 	@RequestMapping(value="/count", method={RequestMethod.POST, RequestMethod.GET})

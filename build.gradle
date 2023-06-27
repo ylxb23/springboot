@@ -37,6 +37,8 @@ ext {
     lombokVersion                          = '1.16.18'
     mybatisVersion                         = '1.3.1'
 	junitVersion						   = '4.13-rc-1'
+	rocketmqVersion                        = '5.0.4'
+	sentinelVersion                        = '1.8.6'
 	springbootVersion                      = '1.5.3.RELEASE'
 	springStatemachineVersion              = '1.2.6.RELEASE'
 	springKafkaVersion					   = '1.2.3.RELEASE'
@@ -51,6 +53,8 @@ ext {
 		prometheus:						  "io.prometheus:simpleclient_spring_boot:${prometheusVersion}",
 		log4jOver:						  "org.slf4j:log4j-over-slf4j:${log4jVersion}",
 		lombok:                           "org.projectlombok:lombok:${lombokVersion}",
+		rocketmq:                         "org.apache.rocketmq:rocketmq-client-java:${rocketmqVersion}",
+		sentinel:                         "com.alibaba.csp:sentinel-core:${sentinelVersion}",
 		// 
 		springStatusmachine:              "org.springframework.statemachine:spring-statemachine-core:${springStatemachineVersion}",
 		
@@ -90,6 +94,10 @@ dependencies {
     compile(libraries.springBoot)     
     compile(libraries.jdbcConnector)
     compile(libraries.druid)
+
+	compile(libraries.rocketmq)	// rocket mq
+	compile(libraries.sentinel) // alibaba sentinel
+
     compile(libraries.springBootLog4j2)
     compile(libraries.log4j2YmlSupport)
     compile(libraries.springBootWeb) 

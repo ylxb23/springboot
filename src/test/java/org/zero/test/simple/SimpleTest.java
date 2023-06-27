@@ -14,7 +14,7 @@ public class SimpleTest {
 	
 	@Test
 	public void testDate() throws ParseException {
-		String str = "2017-07-02 00:08:23";
+		String str = "1993-04-28 00:02:23";
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date now = format.parse(str);
 		
