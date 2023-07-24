@@ -2,12 +2,16 @@ package org.zero.boot.web.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphO;
 import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.Tracer;
+import com.alibaba.csp.sentinel.context.ContextUtil;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,9 +81,65 @@ public class GreetingController {
 		return new Visitor(counter.incrementAndGet(), String.format(TEMPLATE, name));
 	}
 	
-	@RequestMapping(value="/", method= {RequestMethod.GET}) 
+	@RequestMapping(value="/xx", method= {RequestMethod.GET})
+	@ResponseBody
 	public String turn2Hello() {
-		return "hello";
+		String res = "";
+		Entry entry = null;
+
+		try {
+//			ContextUtil.enter(Rules.RESOURCE_A002);
+			entry = SphU.entry(Rules.RESOURCE_A002);
+			res = randomException();
+			logger.info("hello exec success...");
+		} catch (BlockException be) {
+			logger.info("hello exec blocked");
+			res = "blocked";
+
+		} catch (Exception e) {
+			logger.info("hello exec exception");
+			res = e.getMessage();
+			Tracer.traceEntry(e, entry);
+		} finally {
+			if(entry != null) {
+				entry.exit();
+//				ContextUtil.exit();
+			}
+		}
+		return res;
+	}
+
+	@RequestMapping(value="/xxr", method= {RequestMethod.GET})
+	@ResponseBody
+	public String sentinelByRT() {
+		String res = "";
+		Entry entry = null;
+		try {
+			entry = SphU.entry(Rules.RESOURCE_A003);
+			int ran = new Random().nextInt(10);
+			Thread.sleep(ran * 10);
+			logger.info("xxr exec success.");
+			res = "success: " + ran;
+		} catch (BlockException be) {
+			logger.info("xxr exec blocked.");
+			res = "blocked: ";
+		} catch (Exception e) {
+			logger.info("xxr exec unknown exception.");
+			res = "unknown exception";
+		} finally {
+			if(entry != null) {
+				entry.exit();
+			}
+		}
+		return res;
+	}
+
+	private String randomException() throws Exception {
+		int ran = new Random().nextInt();
+		if(ran % 7 == 0) {
+			throw new Exception("This is exception:" + ran);
+		}
+		return "Hello:" + ran;
 	}
 	
 	@ResponseBody
