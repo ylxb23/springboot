@@ -4,7 +4,6 @@ import org.apache.rocketmq.client.apis.ClientConfiguration;
 import org.apache.rocketmq.client.apis.ClientConfigurationBuilder;
 import org.apache.rocketmq.client.apis.ClientException;
 import org.apache.rocketmq.client.apis.ClientServiceProvider;
-import org.apache.rocketmq.client.apis.StaticSessionCredentialsProvider;
 import org.apache.rocketmq.client.apis.message.Message;
 import org.apache.rocketmq.client.apis.message.MessageView;
 import org.apache.rocketmq.client.apis.producer.Producer;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class RocketMQTransactionalMsgTest {
+public class RocketMQTransactionalProducerTest {
 
     public static void main(String[] args) throws ClientException, IOException {
         String endpoint = "127.0.0.1:8081";

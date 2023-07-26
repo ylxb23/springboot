@@ -141,7 +141,25 @@ public class GreetingController {
 		}
 		return "Hello:" + ran;
 	}
-	
+
+	@ResponseBody
+	@RequestMapping(value = "/sentinel", method = {RequestMethod.GET})
+	public String sentinel(@RequestParam(value = "resource") String resource, @RequestParam(value = "value") String value) {
+		Entry entry = null;
+		try {
+			entry = SphU.entry(resource);
+			logger.info("sentinel entry success. resource: {}, value: {}", resource, value);
+			return "success";
+		} catch (BlockException e) {
+			logger.error("sentinel blocked, resource: {}, value: {}", resource, value);
+			return "blocked";
+		} finally {
+			if(entry != null) {
+				entry.exit();
+			}
+		}
+	}
+
 	@ResponseBody
 	@RequestMapping(value="/test", method= {RequestMethod.GET})
 	public String testLogLevel() {

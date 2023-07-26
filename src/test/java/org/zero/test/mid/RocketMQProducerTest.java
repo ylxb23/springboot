@@ -8,7 +8,7 @@ import org.apache.rocketmq.client.apis.producer.SendReceipt;
 import java.io.IOException;
 import java.time.Duration;
 
-public class RocketMQTest {
+public class RocketMQProducerTest {
     public static void main(String[] args) throws ClientException, IOException {
         String endpoint = "127.0.0.1:8081";
         String topic = "zero01";
